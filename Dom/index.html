@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM</title>
+    <script>
+        let timeout;
+        //debouncing does call function automatically on input and can save backend call
+        function debouncePopulate(){
+
+            clearTimeout(timeout);
+            timeout = setTimeout(function() {
+                populate()
+            },100)
+        }
+
+        async function populate(){
+            const a = document.getElementById('first').value;
+            const b = document.getElementById('second').value; 
+            const final = await fetch(`https://sum-server.100xdevs.com/sum?a=${a}&b=${b}`)
+            const ans = await final.text();
+            document.getElementById('finalsum').innerHTML = ans;
+            // .then(function(response){
+            //         console.log(response);
+            //         response.text()
+            //             .then(function(ans){
+            //                 element.innerHTML = ans;
+            //             })
+            //     });
+
+            
+        }
+    </script>
+</head>
+<body>
+    <input oninput="debouncePopulate()" id="first" type="text" placeholder="first"><br><br>
+    <input oninput="debouncePopulate()" id="second" type="text" placeholder="second"><br><br> 
+    <!-- <button onclick="populate()">Calculate sum</button> -->
+    <div id="finalsum"></div>
+</body>
+</html>
